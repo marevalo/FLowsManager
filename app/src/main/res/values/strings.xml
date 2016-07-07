@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">FLows Manager</string>
+
+    <string name="pref_xmpp_section">XMPP Connection</string>
+    <string name="pref_xmpp_user">User</string>
+    <string name="pref_default_xmpp_user">romeo@capulet.lit</string>
+    <string name="pref_xmpp_password">Password</string>
+    <string name="pref_default_xmpp_password">aroseisarose</string>
+
+    <string name="action_edit_target">Target</string>
+    <string name="action_info">Info</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_basic_settings">Settings B</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="node_icon_description">Node Icon</string>
+
+    <string name="title_activity_view">Leaf Details</string>
+
+    <string name="identities_title">Identities</string>
+    <string name="features_title">Features</string>
+
+    <string name="dialog_target_title">Destination JID</string>
+    <string name="dialog_target_message">Enter destination JID</string>
+    <string name="target_ok">Go</string>
+    <string name="target_cancel">Cancel</string>
+    <string name="sample_error_message">This is a sample error message</string>
+    <string name="full_name_text">Full Name</string>
+    <string name="id_name_text">Id Name</string>
+    <string name="ok_button_label">OK</string>
+    <string name="test_button_label">Test</string>
+    <string name="password_label">Password</string>
+    <string name="xmpp_user_label">XMPP user</string>
+    <string name="message_temp_text">...</string>
+
+</resources>

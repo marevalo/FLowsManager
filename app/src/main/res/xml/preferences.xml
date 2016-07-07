@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_xmpp_section"
+        android:key="pref_key_storage_settings">
+   <EditTextPreference
+        android:key="xmpp_user"
+        android:title="@string/pref_xmpp_user"
+        android:defaultValue="@string/pref_default_xmpp_user"
+        android:selectAllOnFocus="true"
+        android:inputType="textCapWords"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="xmpp_password"
+        android:title="@string/pref_xmpp_password"
+        android:defaultValue="@string/pref_default_xmpp_password"
+        android:selectAllOnFocus="true"
+        android:inputType="textCapWords"
+        android:singleLine="true"
+        android:maxLines="1"/>
+    </PreferenceCategory>
+</PreferenceScreen>
