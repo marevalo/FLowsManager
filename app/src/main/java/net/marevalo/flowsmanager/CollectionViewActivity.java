@@ -1,5 +1,6 @@
 package net.marevalo.flowsmanager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -73,32 +74,15 @@ public class CollectionViewActivity extends ActionBarActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         user = sharedPref.getString("xmpp_user", "");
         password = sharedPref.getString("xmpp_password", "");
-        Log.d(LOGTAG , "user:" + user );
-        XMPPConnectionManager.setConfiguration(user, password);
+        Log.d(LOGTAG , "user:" + user + " , " + password );
 
-        // retry until we get a valid configuration
-        if ( XMPPConnectionManager.getConnection() == null ) {
-            Log.d(LOGTAG , "No connection" );
-            //Call the settings activity
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(intent , 1 );
-            Log.d(LOGTAG , "Subactivity launched" );
-            return;
+        setContentView(R.layout.activity_collection_view);
+        ProgressBar myProgress = (ProgressBar) findViewById(R.id.progressBar);
+        myProgress.setIndeterminate( true );
 
-        }
+        // Try to connect login in a task
+        new TestConnectionTask().execute(user, password);
 
-        Log.d(LOGTAG , "Now we have a working connection" );
-
-        // TODO: Do this in a safe way
-        // Anyway if the connection is configured it should be already a current entity
-        if ( this.currentEntity == null ) {
-            this.currentEntity = new Entity(XmppStringUtils.parseDomain(user), null, null);
-        }
-
-        this.setTitle( this.currentEntity.getDisplayName() );
-
-        this.childLoader = new LoadChildEntitiesTask() ;
-        this.childLoader.execute(this);
     }
 
     @Override
@@ -216,6 +200,7 @@ public class CollectionViewActivity extends ActionBarActivity {
         protected void onPreExecute( ){
             setContentView(R.layout.activity_collection_view);
             this.myProgress = (ProgressBar) CollectionViewActivity.this.findViewById(R.id.progressBar);
+            this.myProgress.setIndeterminate( false );
             this.myProgress.setMax(100);
             this.myProgress.setProgress(1);
         }
@@ -420,4 +405,42 @@ public class CollectionViewActivity extends ActionBarActivity {
         this.childLoader.execute(this);
     }
 
+    // Connection testing task
+    private class TestConnectionTask extends AsyncTask<String, Void, Boolean> {
+        String user ;
+        String password ;
+
+        protected Boolean doInBackground(String... params) {
+
+            user = params[0];
+            password =  params[1];
+            Log.d(LOGTAG , "Testing: " + user + " , " + password );
+            XMPPConnectionManager.setConfiguration(user, password);
+            return XMPPConnectionManager.getConnection() != null ;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            CollectionViewActivity myActivity = CollectionViewActivity.this ;
+            if ( result ) {
+                Log.d(LOGTAG , "Now we have a working connection" );
+
+                // TODO: Do this in a safe way
+                // Anyway if the connection is configured it should be already a current entity
+                if ( myActivity.currentEntity == null ) {
+                    myActivity.currentEntity = new Entity(XmppStringUtils.parseDomain(user), null, null);
+                }
+
+                myActivity.setTitle( myActivity.currentEntity.getDisplayName() );
+
+                myActivity.childLoader = new LoadChildEntitiesTask() ;
+                myActivity.childLoader.execute( myActivity );
+            } else {
+                Log.d(LOGTAG , "No connection" );
+                //Call the settings activity
+                Intent intent = new Intent( myActivity, SettingsActivity.class);
+                startActivityForResult(intent , 1 );
+                Log.d(LOGTAG , "Subactivity launched" );
+            }
+        }
+    }
 }
