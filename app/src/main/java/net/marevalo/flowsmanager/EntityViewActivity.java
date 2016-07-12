@@ -1,11 +1,17 @@
 package net.marevalo.flowsmanager;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +28,7 @@ public class EntityViewActivity extends ActionBarActivity {
     private static final String LOGTAG = "EntityViewActivity";
     private Entity myEntity;
     private DiscoverInfo myLeafInfo ;
+    private boolean menuSet = false ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +46,44 @@ public class EntityViewActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                super.onBackPressed();
-                return true;
-        }
+            switch (item.getItemId()) {
+                // Respond to the action bar's Up/Home button
+                case android.R.id.home:
+                    super.onBackPressed();
+                    return true;
+                case 10:
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    Uri uri = new Uri.Builder()
+                            .scheme("xmpp")
+                            .authority(myEntity.getJid())
+                            .encodedQuery("join")
+                            .build();
+                    intent.setData(uri);
+                    Log.d(LOGTAG, "Joining MUC: " + "xmpp:" + myEntity.getJid() + "?join");
+
+                    startActivity(intent);
+                    return true;
+            }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu ( Menu menu ) {
+        int position = 0;
+
+        if ( ! this.menuSet ) {
+
+            this.menuSet = true;
+
+            // Create the menu of actions
+            if (myLeafInfo.containsFeature("muc_public") ||
+                    myLeafInfo.containsFeature("muc_hidden")) {
+                menu.add(0, 10, position, "Join MUC");
+                Log.d(LOGTAG, "Adding Join MUC");
+                position++;
+            }
+        }
+        return true;
     }
 
     class GetInfoAndPopulateViewsTask extends AsyncTask<EntityViewActivity, Void, EntityViewActivity> {
