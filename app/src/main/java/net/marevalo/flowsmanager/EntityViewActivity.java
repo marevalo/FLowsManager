@@ -26,8 +26,8 @@ import java.util.List;
 public class EntityViewActivity extends ActionBarActivity {
 
     private static final String LOGTAG = "EntityViewActivity";
-    private Entity myEntity;
-    private DiscoverInfo myLeafInfo ;
+    private Entity myEntity = null ;
+    private DiscoverInfo myLeafInfo = null ;
     private boolean menuSet = false ;
 
     @Override
@@ -71,9 +71,10 @@ public class EntityViewActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu ( Menu menu ) {
         int position = 0;
 
-        if ( ! this.menuSet ) {
+        Log.d(LOGTAG, "onPrepareOptionsMenu");
+        if ( ! menuSet && myLeafInfo != null) {
 
-            this.menuSet = true;
+            menuSet = true;
 
             // Create the menu of actions
             if (myLeafInfo.containsFeature("muc_public") ||
@@ -105,6 +106,7 @@ public class EntityViewActivity extends ActionBarActivity {
                  } else {
                     activity[0].myLeafInfo = discoManager.discoverInfo( entity.getJid() );
                 }
+                Log.d(LOGTAG, "Got Info!");
             } catch (Exception ex) {
                 Log.w(LOGTAG, "XMPP Disco error " + ex);
                 errorMessage = ex.toString() ;
@@ -173,6 +175,11 @@ public class EntityViewActivity extends ActionBarActivity {
             TextView tvFeatures = (TextView) activity.findViewById(R.id.textViewFeaturesText );
             tvFeatures.setText( featuresText );
 
+            // Invalidate the menu if we haven't got it before
+            if ( ! menuSet ) {
+                Log.d(LOGTAG, "Menu wasn't prepared, invalidating.");
+                invalidateOptionsMenu();
+            }
         }
     }
 }
