@@ -72,13 +72,18 @@ public class EntityViewActivity extends ActionBarActivity {
         int position = 0;
 
         Log.d(LOGTAG, "onPrepareOptionsMenu");
-        if ( ! menuSet && myLeafInfo != null) {
+        if ( this.menuSet ) {
+            Log.d(LOGTAG, "menuSet = true");
+        } else {
+            Log.d(LOGTAG, "menuSet = false");
+        }
+        if ( ( !this.menuSet ) && ( this.myLeafInfo != null ) ) {
 
-            menuSet = true;
+            this.menuSet = true;
 
             // Create the menu of actions
-            if (myLeafInfo.containsFeature("muc_public") ||
-                    myLeafInfo.containsFeature("muc_hidden")) {
+            if (this.myLeafInfo.containsFeature("muc_public") ||
+                    this.myLeafInfo.containsFeature("muc_hidden")) {
                 menu.add(0, 10, position, "Join MUC");
                 Log.d(LOGTAG, "Adding Join MUC");
                 position++;
@@ -175,7 +180,7 @@ public class EntityViewActivity extends ActionBarActivity {
             TextView tvFeatures = (TextView) activity.findViewById(R.id.textViewFeaturesText );
             tvFeatures.setText( featuresText );
 
-            // Invalidate the menu if we haven't got it before
+            // Invalidate (reload) the menu if we haven't got it before
             if ( ! menuSet ) {
                 Log.d(LOGTAG, "Menu wasn't prepared, invalidating.");
                 invalidateOptionsMenu();
