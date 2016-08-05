@@ -47,7 +47,7 @@ public class EntityViewActivity extends ActionBarActivity {
                 case android.R.id.home:
                     super.onBackPressed();
                     return true;
-                case 10:
+                case R.id.ACTION_JOIN_MUC:
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     Uri uri = new Uri.Builder()
                             .scheme("xmpp")
@@ -59,7 +59,7 @@ public class EntityViewActivity extends ActionBarActivity {
 
                     startActivity(intent);
                     return true;
-                case 11:
+                case R.id.ACTION_PING:
                     Intent intent_entity_ping = new Intent(
                             this,
                             EntityPingActivity.class );
@@ -88,13 +88,13 @@ public class EntityViewActivity extends ActionBarActivity {
             // Create the menu of actions
             if (this.myLeafInfo.containsFeature("muc_public") ||
                     this.myLeafInfo.containsFeature("muc_hidden")) {
-                menu.add(0, 10, position, "Join MUC");
+                menu.add(0, R.id.ACTION_JOIN_MUC, position, "Join MUC");
                 Log.d(LOGTAG, "Adding Join MUC");
                 position++;
             }
             // Create the menu of actions
             if (this.myLeafInfo.containsFeature("urn:xmpp:ping") ) {
-                menu.add(0, 11, position, "Ping");
+                menu.add(0, R.id.ACTION_PING, position, "Ping");
                 Log.d(LOGTAG, "Adding Ping");
                 position++;
             }
