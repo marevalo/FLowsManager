@@ -1,8 +1,5 @@
 package net.marevalo.flowsmanager;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -10,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -63,6 +59,14 @@ public class EntityViewActivity extends ActionBarActivity {
 
                     startActivity(intent);
                     return true;
+                case 11:
+                    Intent intent_entity_ping = new Intent(
+                            this,
+                            EntityPingActivity.class );
+                    intent_entity_ping.putExtra( "entity" , myEntity);
+                    Log.d(LOGTAG, "Pinging entity " + myEntity.getJid() );
+                    startActivity(intent_entity_ping);
+                    return true;
             }
         return super.onOptionsItemSelected(item);
     }
@@ -86,6 +90,12 @@ public class EntityViewActivity extends ActionBarActivity {
                     this.myLeafInfo.containsFeature("muc_hidden")) {
                 menu.add(0, 10, position, "Join MUC");
                 Log.d(LOGTAG, "Adding Join MUC");
+                position++;
+            }
+            // Create the menu of actions
+            if (this.myLeafInfo.containsFeature("urn:xmpp:ping") ) {
+                menu.add(0, 11, position, "Ping");
+                Log.d(LOGTAG, "Adding Ping");
                 position++;
             }
         }

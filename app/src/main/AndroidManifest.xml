@@ -26,6 +26,14 @@
                 android:value="net.marevalo.flowsmanager.CollectionViewActivity" />
         </activity>
         <activity
+            android:name=".EntityPingActivity"
+            android:label="@string/title_activity_ping"
+            android:parentActivityName=".EntityViewActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.marevalo.flowsmanager.EntityViewActivity" />
+        </activity>
+        <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".CollectionViewActivity">

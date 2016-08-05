@@ -17,6 +17,7 @@
     <string name="node_icon_description">Node Icon</string>
 
     <string name="title_activity_view">Leaf Details</string>
+    <string name="title_activity_ping">Ping entity</string>
 
     <string name="identities_title">Identities</string>
     <string name="features_title">Features</string>
