@@ -19,6 +19,12 @@ Some screenshots from the 0.0.2 version:
 
 ## Downloading
 
-This software is currently available from this github page:
+This software is currently only available from this github page.
+
+### Latest
+
+- [Version 0.0.3](https://drive.google.com/open?id=0BwsBkswzGUzlWTJIWTg4R2VZTWs)
+
+### Older versions
 
 - [Version 0.0.2](https://drive.google.com/open?id=0BwsBkswzGUzlTVhMRjFwOU4tWmM)
